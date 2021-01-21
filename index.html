@@ -90,7 +90,7 @@
     <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/d549b239d02db5ad3b146e207/8571e90488749ee80d75b8c70.js");</script>
 </head>
 <!--<body>-->
-<body onload=" totalcontractdeposit(); getcontractbalance(); totalplayers(); PlayerWithdraw(); PlayerDeposited(); DepositsCount();">
+<body onload=" totalcontractdeposit(); getcontractbalance(); totalplayers(); PlayerWithdraw(); PlayerDeposited();">
 
 <!---================================= Modal===================================------>
 <div class="modal fade " id="deposite-s" tabindex="-1" role="dialog" aria-labelledby="depositeTitle" aria-hidden="true" data-backdrop="static">
@@ -583,12 +583,6 @@ async function PlayerDeposited(){
 	let DepositsFormatted = Deposit / 1000000;
 	let DepositsFormatted1 = parseFloat(getFormattedNumber(DepositsFormatted));
 	document.getElementById("tot_deposit").innerHTML = DepositsFormatted1;
-}
-async function DepositsCount(){
-	let contract = await window.tronWeb.contract().at(address);
-	let playeraddress = textEllipsis(window.tronWeb.defaultAddress.base58);
-	let res = await contract.getPlayerNumberOfDeposits(playeraddress).call();
-	document.getElementById("no_of_deposit").innerHTML = res;
 }
 async function maketable()
 {

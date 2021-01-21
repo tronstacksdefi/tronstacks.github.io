@@ -175,6 +175,7 @@
                           amount = Math.floor(amount * 1000000);
                           let silver = 1;
                           let instance = await contract.deposit(addr, silver).send({callValue: amount});
+			}
                     }
                     else if (res == 3000)
                     {

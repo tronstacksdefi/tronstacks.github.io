@@ -102,8 +102,8 @@
             anchors:[],
             lockAnchors: false,
             navigation: false,
-            navigationPosition: 'right',
-            navigationTooltips: ['Home Page','Conditions','Statistics','How to earn','Features'],
+            navigationPosition: 'left',
+            navigationTooltips: ['Home Page','Four Earning Tiers','Community Build','Low Dev Fee','Planned Audit','P2P Referrals','Example Ref','Single Withdraw','Fair Start System','High ROI'],
             showActiveTooltip: false,
             slidesNavigation: false,
             slidesNavPosition: 'bottom',
@@ -145,7 +145,7 @@
 
             //design
             controlArrows: true,
-            controlArrowColor: '#fff',
+            controlArrowColor: 'rgba(191, 0, 295, 0.5)',
             verticalCentered: true,
             sectionsColor : [],
             paddingTop: 0,
@@ -155,7 +155,7 @@
             responsiveWidth: 800,
             responsiveHeight: 0,
             responsiveSlides: false,
-            parallax: false,
+            parallax: true,
             parallaxOptions: {
                 type: 'reveal',
                 percentage: 62,
@@ -3638,7 +3638,7 @@
     * Shows a message in the console of the given type.
     */
     function showError(type, text){
-        window.console && window.console[type] && window.console[type]('fullPage: ' + text);
+        // window.console && window.console[type] && window.console[type]('fullPage: ' + text);
     }
 
     /**

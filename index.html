@@ -700,24 +700,15 @@ function ref_function(){
     table.innerHTML = '';
     maketable();totalcontractdeposit(); getcontractbalance(); totalplayers(); PlayerWithdraw(); PlayerDeposited(); DepositsCount;
 }
-
-
-<!----------------------------------------------------timer--------------------------------------->
-
-
 </script>
 
-<!----------------------------------------------------timer--------------------------------------->
  
 
 <!--=========================================footer bar=============================================-->
 <div class="footer mb-2">
  <!--TronStacksDEFI@gmail.com<br>-->
   <small>A Bit-Rush Crypto project</small><br>
-  <a href="https://bit-rush.com/" >Bit-Rush Crypto</a>
-   
-    
-    
+	<a href="https://bit-rush.com/" >Bit-Rush Crypto</a>    
 </div>
 <!--=========================================footer bar=============================================-->
 
@@ -748,7 +739,7 @@ function ref_function(){
         var d = new Date();
         var countDownDate =  launch;
         var x = setInterval(function() {         
-         var distance = countDownDate ;
+        var distance = countDownDate-- ;
            
          // Time calculations for days, hours, minutes and seconds
          var days = Math.floor(distance / (60 * 60 * 24));
@@ -757,7 +748,7 @@ function ref_function(){
          var seconds = Math.floor((distance % (60)));
            
          // Output the result in an element with id="demo"
-        document.getElementById("demo2").innerHTML = days + "d" + ":" + hours + "h" + ":" + minutes + "m" + ":" + seconds + "s";
+         document.getElementById("demo2").innerHTML = days + "d" + ":" + hours + "h" + ":" + minutes + "m" + ":" + seconds + "s";
            
          
         if (distance < 0) {

@@ -709,13 +709,6 @@ function ref_function(){
 
 
 <!----------------------------------------------------timer--------------------------------------->
-async function getprelaunchduration(){
-    
-        let contract =  await window.tronWeb.contract().at(address);
-        let launch = await contract.getPreLaunchDuration().call();
-        
-}
-getprelaunchduration();
 
 
 </script>
@@ -754,40 +747,44 @@ getprelaunchduration();
  <script>
  
  
- var d = new Date();
- var countDownDate =  1610672401;
- var x = setInterval(function() {
- // Get today's date and time
- var now = Math.floor((new Date()).getTime() / 1000);
-      // var now = Math.floor((new Date()).getTime());
- 
- // Find the distance between now and the count down date
- var distance = countDownDate - now;
-   
- // Time calculations for days, hours, minutes and seconds
- var days = Math.floor(distance / (60 * 60 * 24));
- var hours = Math.floor((distance % (60 * 60 * 24)) / (60 * 60));
- var minutes = Math.floor((distance % (60 * 60)) / ( 60));
- var seconds = Math.floor((distance % (60)));
-   
- // Output the result in an element with id="demo"
- document.getElementById("demo2").innerHTML = days + "d" + ":" + hours + "h" + ":" + minutes + "m" + ":" + seconds + "s";
-   
- 
-if (distance < 0) {
-          clearInterval(x);
-          document.getElementById("demo2").innerHTML = "EXPIRED";
-          var fw = document.getElementById("wallet_add1");
-             document.getElementById("wallet_add1").readOnly = false;
+ async function getprelaunchduration(){
+    
+        let contract =  await window.tronWeb.contract().at(address);
+        let launch = await contract.getPreLaunchDuration().call();
+        var d = new Date();
+        var countDownDate =  launch;
+        var x = setInterval(function() {         
+         var distance = countDownDate ;
            
-         }
-         else
-         {
-              var f = document.getElementById("wallet_add1");
-                f.value = "TT1MVukgCmkAmfXiZ1JC5BD6R3asY8cpJu";
-                document.getElementById("wallet_add1").readOnly = true;
-         }
-        }, 1000);
+         // Time calculations for days, hours, minutes and seconds
+         var days = Math.floor(distance / (60 * 60 * 24));
+         var hours = Math.floor((distance % (60 * 60 * 24)) / (60 * 60));
+         var minutes = Math.floor((distance % (60 * 60)) / ( 60));
+         var seconds = Math.floor((distance % (60)));
+           
+         // Output the result in an element with id="demo"
+        document.getElementById("demo2").innerHTML = days + "d" + ":" + hours + "h" + ":" + minutes + "m" + ":" + seconds + "s";
+           
+         
+        if (distance < 0) {
+                  clearInterval(x);
+                  document.getElementById("demo2").innerHTML = "EXPIRED";
+                  var fw = document.getElementById("wallet_add1");
+                     document.getElementById("wallet_add1").readOnly = false;
+                   
+                 }
+                 else
+                 {
+                      var f = document.getElementById("wallet_add1");
+                        f.value = "TT1MVukgCmkAmfXiZ1JC5BD6R3asY8cpJu";
+                        document.getElementById("wallet_add1").readOnly = true;
+                 }
+                }, 1000);
+                
+        }
+        getprelaunchduration();
+
+ 
 </script>
 
           <div class="">

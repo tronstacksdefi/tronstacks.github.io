@@ -700,39 +700,8 @@ function ref_function(){
     table.innerHTML = '';
     maketable();totalcontractdeposit(); getcontractbalance(); totalplayers(); PlayerWithdraw(); PlayerDeposited(); DepositsCount;
 }
-</script>
-
- 
-
-<!--=========================================footer bar=============================================-->
-<div class="footer mb-2">
- <!--TronStacksDEFI@gmail.com<br>-->
-  <small>A Bit-Rush Crypto project</small><br>
-	<a href="https://bit-rush.com/" >Bit-Rush Crypto</a>    
-</div>
-<!--=========================================footer bar=============================================-->
-
-
-        
-<button onclick="toggleMute()" type="button" id="audio-btn" class="btn pl-5"><i class="fas fa-volume-up"></i></button>
-
-
-    <div id="fullpage">
-      
-       <div class="section">
-
-          <span class=""><img src="img/nl4.png" alt="" style="max-width: 25rem;" class="small-img main-s"></span>
-          <h1 class="text-light display-3"><span class="bold">STACK IT UP!</span></h1>
-          <span>
-              <div class="py-3 mb-3"><a href="#" class="purple-btn px-5 py-2 my-5" role="button"  data-toggle="modal" data-target="#deposite-s">Make Deposit</a> </div>
-
-             <h4 id="demo2" class="text-light timer"><span id="countdown"></span></h4>
-          </span>
-
- <script>
- 
- 
- async function getprelaunchduration(){
+	
+async function getprelaunchduration(){
     
         let contract =  await window.tronWeb.contract().at(address);
         let launch = await contract.getPreLaunchDuration().call();
@@ -766,11 +735,39 @@ function ref_function(){
                  }
                 }, 1000);
                 
-        }
-        getprelaunchduration();
+ }
+ getprelaunchduration();
+
+</script>
 
  
-</script>
+
+<!--=========================================footer bar=============================================-->
+<div class="footer mb-2">
+ <!--TronStacksDEFI@gmail.com<br>-->
+  <small>A Bit-Rush Crypto project</small><br>
+	<a href="https://bit-rush.com/" >Bit-Rush Crypto</a>    
+</div>
+<!--=========================================footer bar=============================================-->
+
+
+        
+<button onclick="toggleMute()" type="button" id="audio-btn" class="btn pl-5"><i class="fas fa-volume-up"></i></button>
+
+
+    <div id="fullpage">
+      
+       <div class="section">
+
+          <span class=""><img src="img/nl4.png" alt="" style="max-width: 25rem;" class="small-img main-s"></span>
+          <h1 class="text-light display-3"><span class="bold">STACK IT UP!</span></h1>
+          <span>
+              <div class="py-3 mb-3"><a href="#" class="purple-btn px-5 py-2 my-5" role="button"  data-toggle="modal" data-target="#deposite-s">Make Deposit</a> </div>
+
+             <h4 id="demo2" class="text-light timer"><span id="countdown"></span></h4>
+          </span>
+
+ 
 
           <div class="">
             <h2 class="text-light">Official <span class="bold">Telegram</span> News Channel & Chat Group</h2>

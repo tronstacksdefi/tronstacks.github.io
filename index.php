@@ -1,11 +1,11 @@
- 
-<html>
+<!DOCTYPE html>
+ <html>
 <head>
     <title>TronStacks</title>
     <link rel="stylesheet"  href="fullpage.css" />
     <link rel="stylesheet"  href="theme.css" />
     <link rel="manifest" href="favicons/manifest.json">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="vendors/jquery.easings.min.js"></script>
     <script  src="fullpage.js"></script>
     <link rel="stylesheet" href="css/style.css">
@@ -268,11 +268,12 @@
 
     </ul>
     <form class="form-inline my-2 my-lg-0 text-center justify-content-center">
+        <a  href="tronstacks-en.pdf" class="px-2 btn3 btn  mx-1" target=_blank><small><i class="fas fa-check-double"></i>Audit Status</small></a>   
         <a  href="https://tronscan.org/#/contract/TETPq9vKTyeLX4ntsgQmDrAqWjigQDkxgy/code" class="px-2 btn3 btn  mx-1" type="button" target=_blank><small><i class="fas fa-check-double"></i> Verified Smart Contract</small></a>   
        <a  href="#" class="px-2 btn btn3  mx-1" type="button" id="unlock"><small>Unlock Wallet</small></a>     
-      <a  href="https://twitter.com/TronStacksDefi" class="px-2 social-icon silver"><i class="fab fa-twitter fa-2x"></i></a>
-      <a  href="https://tronstacks.com/t.me/TronStacksOfficial" class="px-2 social-icon silver"><i class="fab fa-telegram-plane fa-2x "></i></a>
-      <a  href="https://www.youtube.com/channel/UC5kda5Qi_2hAavzQCeCLdUw" class="px-2 social-icon silver"><i class="fab fa-youtube fa-2x"></i></a> 
+      <a  href="https://twitter.com/TronStacksDefi" class="px-2 social-icon silver" target=_blank><i class="fab fa-twitter fa-2x"></i></a>
+      <a  href="https://t.me/TronStacksOfficial" class="px-2 social-icon silver" target=_blank><i class="fab fa-telegram-plane fa-2x "></i></a>
+      <a  href="https://www.youtube.com/channel/UC5kda5Qi_2hAavzQCeCLdUw" class="px-2 social-icon silver" target=_blank><i class="fab fa-youtube fa-2x"></i></a> 
     </form>
   </div>
 </nav>
@@ -359,6 +360,7 @@
                      <tbody id="ides">
                     </tbody>
                     </table>
+                    <small style="color:red;">Only 1 withdrawal per deposit is allowed! Any remaining gains will be lost on withdrawal.</small>
                  </div>
                </div>
              </div>
@@ -441,7 +443,8 @@ $('#unlock').click(async function () {
 					document.getElementById("unlock").innerHTML = "<small>Wallet Statistics</small>";
 				} else {
 					document.getElementById("address").value = textEllipsis(window.tronWeb.defaultAddress.base58);
-					document.getElementById("wallet_add1").value = textEllipsis(window.tronWeb.defaultAddress.base58);
+          document.getElementById("wallet_add1").value = textEllipsis(window.tronWeb.defaultAddress.base58);
+          document.getElementById('link-s').value = ('https://tronstacks.com/?ref=' +textEllipsis(window.tronWeb.defaultAddress.base58));
 					document.getElementById("unlock").innerHTML = "<small>Wallet Statistics</small>";
 					var span = document.getElementsByClassName("close-logout")[0];
 					modal.style.display = "block";
@@ -536,9 +539,12 @@ function getFormattedNumber(num) {
         return value.toFixed(0)
     }
 }
+// function ref_link(){
+//   let addr =textEllipsis(window.tronWeb.defaultAddress.base58);
+//   document.getElementById('link-s').value = ('https://tronstacks.com/?ref=' + addr);
+// }
+// ref_link()
 
-let addr =textEllipsis(window.tronWeb.defaultAddress.base58);
-document.getElementById('link-s').value = ('http://techyroots.com/tronstacks/?ref=' + addr);
 
 
 
@@ -557,8 +563,17 @@ async function getcontractbalance(){
     let userWithdrawn = launch / 1000000;
     let user = parseFloat(getFormattedNumber(userWithdrawn))
     document.getElementById("contract_bal").innerHTML = user;
-    var contractbonus = 0.01
-    document.getElementById("contract_bonus").innerHTML = contractbonus;
+    try{
+        let contract_bons = await contract.getPreLaunchDuration().call();
+        var contractbonus = 0
+        document.getElementById("contract_bonus").innerHTML = contractbonus;
+    }
+    
+    catch(err){
+        var contractbonus = 0.01
+        document.getElementById("contract_bonus").innerHTML = contractbonus;
+    }
+   
 }
 async function totalplayers(){
     let contract =  await window.tronWeb.contract().at(address);
@@ -598,9 +613,8 @@ async function maketable()
                var tr = document.createElement('tr');
                let data = await contract.getPlayerDepositInfo(playeraddress,i).call();
                let dailyprofit = await contract.getPlayerPercentRate(playeraddress,i).call();
-               let daily = dailyprofit/10;
-               let holdbonus = await contract.HOLDBONUS().call();
-               let hold = holdbonus/100;
+               let daily = (dailyprofit/100);
+               let dailyprofits = daily + 1;     // 1% daily
                 
            
                var amt = data[0]/1000000;
@@ -633,23 +647,42 @@ async function maketable()
                col1.textContent= i;
                var col2 = document.createElement('td');
                col2.textContent= amt + "TRX";
-               var col3 = document.createElement('td');
-               col3.textContent= hold + "%";
                var col4 = document.createElement('td');
-               col4.textContent= daily +"%";
+               col4.textContent= dailyprofits +"%";
                tr.appendChild(col1);
                tr.appendChild(col2);
-               tr.appendChild(col3);
+              
+               try{
+                   let launch = await contract.getPreLaunchDuration().call();
+                   if (launch == 0){
+                       let holdbonus = await contract.getPlayerHoldPercent(playeraddress,i).call();
+                       let hold = holdbonus/100;
+                       var col3 = document.createElement('td');
+                       col3.textContent= hold + "%";
+                       tr.appendChild(col3);
+                   }
+                   else{
+                       let hold = 0;
+                       var col3 = document.createElement('td');
+                       col3.textContent= hold + "%";
+                       tr.appendChild(col3);
+                   }
+               }
+               catch(err){
+                   let holdbonus = await contract.getPlayerHoldPercent(playeraddress,i).call();
+                   let hold = holdbonus/100;
+                   var col3 = document.createElement('td');
+                   col3.textContent= hold + "%";
+                   tr.appendChild(col3);
+               }
                tr.appendChild(col4);
                tr.appendChild(col5);
                try
                {
                    let data1 = await contract.getPlayerDepositGain(playeraddress,i).call();
-                   let value = data1[3]/100;
-                   let convert = tronWeb.fromSun(value);
-                   let userWithdrawnTrx = parseFloat(getFormattedNumber(convert));
+                   let value = data1[3]/1000000;
                    var col6 = document.createElement('td');
-                   col6.textContent= userWithdrawnTrx +"TRX";
+                   col6.textContent= value +"TRX";
                    var col7 = document.createElement('td');
                    var chkIdInput = document.createElement("input");
                    chkIdInput.setAttribute("type","button");
@@ -703,17 +736,14 @@ function ref_function(){
 }
 async function getprelaunchduration(){
     
-        let contract =  await window.tronWeb.contract().at(address);
-        let launch = await contract.getPreLaunchDuration().call();
-       
-        var d = new Date();
-     
-     var x = setInterval(function() {
-     // Get today's date and time
-    
-     var distance = launch--;
-       
-     // Time calculations for days, hours, minutes and seconds
+    let contract =  await window.tronWeb.contract().at(address);
+    try{
+    let launch = await contract.getPreLaunchDuration().call();
+    var d = new Date();
+    var x = setInterval(function() {
+    var distance = launch--;
+   
+ // Time calculations for days, hours, minutes and seconds
      var days = Math.floor(distance / (60 * 60 * 24));
      var hours = Math.floor((distance % (60 * 60 * 24)) / (60 * 60));
      var minutes = Math.floor((distance % (60 * 60)) / ( 60));
@@ -725,7 +755,7 @@ async function getprelaunchduration(){
      
     if (distance < 0) {
               clearInterval(x);
-              document.getElementById("demo2").innerHTML = "EXPIRED";
+              document.getElementById("demo2").innerHTML = "NOW LIVE";
               var fw = document.getElementById("wallet_add1");
                  document.getElementById("wallet_add1").readOnly = false;
                
@@ -737,11 +767,12 @@ async function getprelaunchduration(){
                     document.getElementById("wallet_add1").readOnly = true;
              }
             }, 1000);
-            
+    }
+    catch(err){
+      document.getElementById("demo2").innerHTML = "NOW LIVE";
+    }
 }
 getprelaunchduration();
-
-<!----------------------------------------------------timer--------------------------------------->
 
 
 
@@ -750,16 +781,7 @@ getprelaunchduration();
 <!----------------------------------------------------timer--------------------------------------->
  
 
-<!--=========================================footer bar=============================================-->
-<div class="footer mb-2">
- <!--TronStacksDEFI@gmail.com<br>-->
-  <small>A Bit-Rush Crypto project</small><br>
-  <a href="https://bit-rush.com/" >Bit-Rush Crypto</a>
-   
-    
-    
-</div>
-<!--=========================================footer bar=============================================-->
+
 
 
         
@@ -771,9 +793,9 @@ getprelaunchduration();
        <div class="section">
 
           <span class=""><img src="img/nl4.png" alt="" style="max-width: 25rem;" class="small-img main-s"></span>
-          <h1 class="text-light display-3"><span class="bold">STACK IT UP!</span></h1>
+          <h1 class="text-light display-4"><span class="bold">STACK IT UP!</span></h1>
           <span>
-              <div class="py-3 mb-3"><a href="#" class="purple-btn px-5 py-2 my-5" role="button"  data-toggle="modal" data-target="#deposite-s">Make Deposit</a> </div>
+              <div class="my-1"><a href="#" class="purple-btn px-5 py-2 " role="button"  data-toggle="modal" data-target="#deposite-s">Make Deposit</a> </div>
 
              <h4 id="demo2" class="text-light timer"><span id="countdown"></span></h4>
           </span>
@@ -896,7 +918,7 @@ getprelaunchduration();
  <!--TronStacksDEFI@gmail.com<br>-->
   <small class="row justify-content-center">
         <a  href="https://twitter.com/TronStacksDefi" class="px-2 social-icon silver hide"><i class="fab fa-twitter fa-2x"></i></a>
-      <a  href="https://tronstacks.com/t.me/TronStacksOfficial" class="px-2 social-icon silver hide"><i class="fab fa-telegram-plane fa-2x "></i></a>
+      <a  href="https://t.me/TronStacksOfficial" class="px-2 social-icon silver hide"><i class="fab fa-telegram-plane fa-2x "></i></a>
       <a  href="https://www.youtube.com/channel/UC5kda5Qi_2hAavzQCeCLdUw" class="px-2 social-icon silver hide"><i class="fab fa-youtube fa-2x"></i></a> 
     </small>
 
